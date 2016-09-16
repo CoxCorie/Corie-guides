@@ -1,0 +1,22 @@
+#useful pandas functions
+df_MMAI.dtypes #shows column names and datatypes
+
+df_MMAI_2['Cov Eff Date'].value_counts() # count of value
+df_MMAI_2['Cov Eff Date'].value_counts().hist # histogram of column
+df_MMAI_2['Cov Eff Date'].value_counts().plot(kind='bar') #bar chart of column counts
+df_MMAI_2['Cov Eff Date'].value_counts().sort_index().plot(kind='bar') #sorted
+
+#lamda functon for new DF column
+def get_age(DOB):   
+    today = date.today()
+    return today.year - DOB.year - ((today.month, today.day) < (DOB.month, DOB.day))
+df_MMAI_2['age'] = df_MMAI_2.apply(lambda row: get_age(row['DOB']), axis=1)
+
+#converts columns to timestamp data type
+time_fields = ['Cov Eff Date', 'Cov End Date', 'DOD']
+for field in time_fields:
+    df_MMAI[field] = pd.to_datetime(df_MMAI[field], errors='coerce')
+
+df['N'].hist(by=df['Letter']) #histogram for every letter
+
+df_irad_274['CaseManager'].tolist() #column to list
